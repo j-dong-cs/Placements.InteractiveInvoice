@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Placement.InteractiveInvoice.Models.LineItem>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>LineItem Index</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LineItemID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LineItemName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CampaignID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CampaignName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookedAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActualAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Adjustments)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LineItemID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LineItemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CampaignID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CampaignName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookedAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActualAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adjustments)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

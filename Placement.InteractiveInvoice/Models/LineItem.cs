@@ -22,15 +22,15 @@ namespace Placement.InteractiveInvoice.Models
 
         [DisplayFormat(DataFormatString = "{0:C}")]
         [JsonPropertyName("booked_amount")]
-        public Decimal BookedAmount { get; set; }
+        public decimal BookedAmount { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C}")]
         [JsonPropertyName("actual_amount")]
-        public Decimal ActualAmount { get; set; }
+        public decimal ActualAmount { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C}")]
         [JsonPropertyName("adjustments")]
-        public Decimal Adjustments { get; set; }
+        public decimal Adjustments { get; set; }
 
         // one lineitem only belong to one campaign
         public virtual Campaign Campaign { get; set; }
@@ -39,6 +39,6 @@ namespace Placement.InteractiveInvoice.Models
         public virtual ICollection<Comment> Comments { get; set; }
 
         // one lineitem exist in many invoices
-        public virtual ICollection<Invoice> Invoices { get; set; }
+        public virtual ICollection<InvoiceLineItem> InvoiceLineItems { get; set; }
     }
 }

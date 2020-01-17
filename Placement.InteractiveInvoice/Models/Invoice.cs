@@ -17,7 +17,7 @@ namespace Placement.InteractiveInvoice.Models
         public int UserID { get; set; }
 
         // one invoice has many lineitems
-        public virtual ICollection<LineItem> LineItems { get; set; }
+        public virtual ICollection<InvoiceLineItem> InvoiceLineItems { get; set; }
 
         // one invoice can only be created by one user
         public virtual User User { get; set; }
