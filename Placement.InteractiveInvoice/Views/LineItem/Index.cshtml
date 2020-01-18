@@ -71,19 +71,31 @@
 </table>
 
 @{
-    var preDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-}
+    var preDisabled = Model.HasPreviousPage ? "" : "disabled";
+    var nextDisabled = Model.HasNextPage ? "" : "disabled";
+    var pre10Disabled = Model.HasPreviousTenPage ? "" : "disabled";
+    var next10Disabled = Model.HasNextTenPage ? "" : "disabled";
+ }
 
 
-<nav>
-    <ul class="pagination">
-        <li class="page-item @preDisabled"><a asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex - 1)" class="page-link"}>Previous</a></li>
-
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-
-        <li class="page-item @nextDisabled"><a asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex + 1)" class="page-link"}>Next</a></li>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a class="page-link" asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="1" aria-label="StartPage">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item @preDisabled"><a asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex - 1)" class="page-link" }>Previous</a></li>
+        @{ var startIndex = Model.PageIndex - 5 < 1 ? 1 : Model.PageIndex - 5; }
+        @for (int i = startIndex; i <= startIndex + 9; i++)
+        {
+            <li class="page-item"><a class="page-link" asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@i">@i</a></li>
+        }
+        <li class="page-item @nextDisabled"><a asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex + 1)" class="page-link" }>Next</a></li>
+        <li class="page-item">
+            <a class="page-link" asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@Model.TotalPages" aria-label="EndPage">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
     </ul>
 </nav>

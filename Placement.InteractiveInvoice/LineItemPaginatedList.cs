@@ -26,11 +26,27 @@ namespace Placement.InteractiveInvoice
             }
         }
 
+        public bool HasPreviousTenPage
+        {
+            get
+            {
+                return PageIndex > 10;
+            }
+        }
+
         public bool HasNextPage
         {
             get
             {
                 return (PageIndex < TotalPages);
+            }
+        }
+
+        public bool HasNextTenPage
+        {
+            get
+            {
+                return PageIndex <= TotalPages - 10;
             }
         }
 
