@@ -86,8 +86,11 @@
             </a>
         </li>
         <li class="page-item @preDisabled"><a asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex - 1)" class="page-link" }>Previous</a></li>
-        @{ var startIndex = Model.PageIndex - 5 < 1 ? 1 : Model.PageIndex - 5; }
-        @for (int i = startIndex; i <= startIndex + 9; i++)
+        @{
+            var startIndex = Model.PageIndex - 5 < 1 ? 1 : Model.PageIndex - 5;
+            var endIndex = startIndex + 9 > Model.TotalPages ? Model.TotalPages : startIndex + 9;
+         }
+        @for (int i = startIndex; i <= endIndex; i++)
         {
             <li class="page-item"><a class="page-link" asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@i">@i</a></li>
         }
