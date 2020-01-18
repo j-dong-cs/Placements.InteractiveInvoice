@@ -1,0 +1,41 @@
+@model Placement.InteractiveInvoice.Models.LineItem
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>LineItem</h2>
+
+<dt class="col-sm-2">
+    @Html.DisplayNameFor(model => model.LineItemName)
+</dt>
+<dd class="col-sm-10">
+    @Html.DisplayFor(model => model.LineItemName)
+</dd>
+
+<dt class="col-sm-2">
+    @Html.DisplayNameFor(model => model.Comments)
+</dt>
+<dd class="col-sm-10">
+    <table class="table">
+        <tr>
+            <th>User</th>
+            <th>Comment</th>
+        </tr>
+        @foreach (var item in Model.Comments)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Body)
+                </td>
+            </tr>
+        }
+    </table>
+</dd>
+
+<a asp-action="Index">Back to List</a>
+
+

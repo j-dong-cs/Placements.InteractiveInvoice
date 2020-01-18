@@ -26,28 +26,25 @@ namespace Placement.InteractiveInvoice.Data
             var jsonString = File.ReadAllText(@"Seed/placements_teaser_data.json");
             var lineItems = JsonSerializer.Deserialize<LineItem[]>(jsonString);
 
-            using (context)
+            foreach (LineItem item in lineItems)
             {
-                foreach (LineItem item in lineItems)
+                Campaign campaign;
+                bool IsDuplicate = context.Campaigns.Any(c => c.CampaignID == item.CampaignID);
+
+                if (!IsDuplicate)
                 {
-                    Campaign campaign;
-                    bool IsDuplicate = context.Campaigns.Any(c => c.CampaignID == item.CampaignID);
-
-                    if (!IsDuplicate)
-                    {
-                        campaign = new Campaign { CampaignID=item.CampaignID, CampaignName = item.CampaignName };
-                        context.Campaigns.Add(campaign);
-                    }
-                    else
-                    {
-                        campaign = context.Campaigns.Where(c => c.CampaignID == item.CampaignID).Single();
-                    }
-
-                    item.Campaign = campaign;
-
-                    context.LineItems.Add(item);
-                    context.SaveChanges();
+                    campaign = new Campaign { CampaignID = item.CampaignID, CampaignName = item.CampaignName };
+                    context.Campaigns.Add(campaign);
                 }
+                else
+                {
+                    campaign = context.Campaigns.Where(c => c.CampaignID == item.CampaignID).Single();
+                }
+
+                item.Campaign = campaign;
+
+                context.LineItems.Add(item);
+                context.SaveChanges();
             }
        }
     }
