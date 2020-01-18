@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Placement.InteractiveInvoice.Models.LineItem>
+﻿@model LineItemPaginatedList<Placement.InteractiveInvoice.Models.LineItem>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,27 +10,28 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.LineItemID)
+                LineItem ID
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LineItemName)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]">LineItem Name</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CampaignID)
+                Campaign ID
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CampaignName)
+                Campaign Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BookedAmount)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["BookedAmtParam"]">Booked Amount</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ActualAmount)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["ActualAmtParam"]">Actual Amount</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Adjustments)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["AdjustParam"]">Adjustments</a>
             </th>
             <th>
+                Subtotal
             </th>
         </tr>
     </thead>
@@ -39,7 +40,9 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.LineItemID)
+                <a asp-controller="LineItem" asp-action="Details" asp-route-LineItemID="@item.LineItemID">
+                    @Html.DisplayFor(modelItem => item.LineItemID)
+                </a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LineItemName)
@@ -60,11 +63,27 @@
                 @Html.DisplayFor(modelItem => item.Adjustments)
             </td>
             <td>
-                <a asp-controller="LineItem" asp-action="Details" asp-route-LineItemID="@item.LineItemID">
-                    Details
-                </a>
+               $@(Decimal.Round(item.ActualAmount + item.Adjustments, 2))
             </td>
         </tr>
         }
     </tbody>
 </table>
+
+@{
+    var preDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+
+<nav>
+    <ul class="pagination">
+        <li class="page-item @preDisabled"><a asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex - 1)" class="page-link"}>Previous</a></li>
+
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+
+        <li class="page-item @nextDisabled"><a asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex + 1)" class="page-link"}>Next</a></li>
+    </ul>
+</nav>

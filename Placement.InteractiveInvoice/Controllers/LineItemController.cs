@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Placement.InteractiveInvoice.Data;
+using Placement.InteractiveInvoice.Models;
 
 namespace Placement.InteractiveInvoice.Controllers
 {
     public class LineItemController : Controller
     {
+        private readonly int PageSize = 50;
         private readonly InteractiveInvoiceContext _context;
 
         public LineItemController(InteractiveInvoiceContext context)
@@ -18,12 +20,51 @@ namespace Placement.InteractiveInvoice.Controllers
         }
 
         // ~/LineItem
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, int? pageNumber)
         {
-            return View("Index", await _context.LineItems.ToListAsync());
+            // default sort in ascending order by LineItemName
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "" : "name_desc";
+            ViewData["BookedAmtParam"] = sortOrder == "BookedAmount" ? "booked_desc" : "booked_asc";
+            ViewData["ActualAmtParam"] = sortOrder == "ActualAmount" ? "actual_desc" : "actual_asc";
+            ViewData["AdjustParam"] = sortOrder == "Adjustments" ? "adj_desc" : "adj_asc";
+
+            var lineitems = from li in _context.LineItems
+                            select li;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    lineitems = lineitems.OrderByDescending(li => li.LineItemName);
+                    break;
+                case "booked_asc":
+                    lineitems = lineitems.OrderBy(li => li.BookedAmount);
+                    break;
+                case "booked_desc":
+                    lineitems = lineitems.OrderByDescending(li => li.BookedAmount);
+                    break;
+                case "actual_acs":
+                    lineitems = lineitems.OrderBy(li => li.ActualAmount);
+                    break;
+                case "actual_desc":
+                    lineitems = lineitems.OrderByDescending(li => li.ActualAmount);
+                    break;
+                case "adj_asc":
+                    lineitems = lineitems.OrderBy(li => li.Adjustments);
+                    break;
+                case "adj_desc":
+                    lineitems = lineitems.OrderByDescending(li => li.Adjustments);
+                    break;
+                default:
+                    lineitems = lineitems.OrderBy(li => li.LineItemName);
+                    break;
+            }
+
+            int total = await lineitems.CountAsync();
+
+            return View("Index", await LineItemPaginatedList<LineItem>.CreateAsync(lineitems.AsNoTracking(), pageNumber ?? 1, PageSize));
         }
 
-        // ~/LineItem/Details/id
+        // ~/LineItem/Details/{LineItemID}
         public async Task<IActionResult> Details(int? LineItemID)
         {
             if (LineItemID == null)
