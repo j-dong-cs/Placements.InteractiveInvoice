@@ -20,17 +20,34 @@ namespace Placement.InteractiveInvoice.Controllers
         }
 
         // ~/LineItem
-        public async Task<IActionResult> Index(string sortOrder, int? pageNumber)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
             // default sort in ascending order by LineItemName
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "" : "name_desc";
+            ViewData["NameSortParam"] = string.IsNullOrEmpty(sortOrder) ? "" : "name_desc";
             ViewData["BookedAmtParam"] = sortOrder == "BookedAmount" ? "booked_desc" : "booked_asc";
             ViewData["ActualAmtParam"] = sortOrder == "ActualAmount" ? "actual_desc" : "actual_asc";
             ViewData["AdjustParam"] = sortOrder == "Adjustments" ? "adj_desc" : "adj_asc";
 
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
             var lineitems = from li in _context.LineItems
                             select li;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                lineitems = lineitems.Where(li => li.LineItemName.Contains(searchString) || li.CampaignName.Contains(searchString));
+            }
+
             switch (sortOrder)
             {
                 case "name_desc":

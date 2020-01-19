@@ -6,6 +6,16 @@
 
 <h2>LineItem List</h2>
 
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <div class="form-row">
+            <input class="form-control col-md-4" type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Find by Name" />
+            <input class="btn btn-outline-primary" type="submit" value="Search" />
+            <a class="btn btn-outline-secondary" asp-action="Index">Clear</a>
+        </div>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
@@ -13,22 +23,22 @@
                 LineItem ID
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]">LineItem Name</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">LineItem Name</a>
             </th>
             <th>
                 Campaign ID
             </th>
             <th>
-                Campaign Name
+                <a></a>Campaign Name
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["BookedAmtParam"]">Booked Amount</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["BookedAmtParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Booked Amount</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["ActualAmtParam"]">Actual Amount</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["ActualAmtParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Actual Amount</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["AdjustParam"]">Adjustments</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["AdjustParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Adjustments</a>
             </th>
             <th>
                 Subtotal
@@ -73,30 +83,65 @@
 @{
     var preDisabled = Model.HasPreviousPage ? "" : "disabled";
     var nextDisabled = Model.HasNextPage ? "" : "disabled";
-    var pre10Disabled = Model.HasPreviousTenPage ? "" : "disabled";
-    var next10Disabled = Model.HasNextTenPage ? "" : "disabled";
  }
 
 
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
         <li class="page-item">
-            <a class="page-link" asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="1" aria-label="StartPage">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               asp-route-pageNumber="1"
+               aria-label="StartPage">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
-        <li class="page-item @preDisabled"><a asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex - 1)" class="page-link" }>Previous</a></li>
+        <li class="page-item @preDisabled">
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               asp-route-pageNumber="@(Model.PageIndex - 1)"
+               class="page-link" }>
+                Previous
+            </a>
+        </li>
         @{
-            var startIndex = Model.PageIndex - 5 < 1 ? 1 : Model.PageIndex - 5;
-            var endIndex = startIndex + 9 > Model.TotalPages ? Model.TotalPages : startIndex + 9;
+            var pagesPerView = 10;
+            var startIndex = Model.PageIndex - pagesPerView / 2;
+            startIndex = startIndex < 1 ? 1 : startIndex;
+            var endIndex = startIndex + pagesPerView - 1;
+            endIndex = endIndex > Model.TotalPages ? Model.TotalPages : endIndex;
          }
         @for (int i = startIndex; i <= endIndex; i++)
         {
-            <li class="page-item"><a class="page-link" asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@i">@i</a></li>
+            <li class="page-item">
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                   asp-route-pageNumber="@i"
+                   class="page-link">
+                    @i
+                </a>
+            </li>
         }
-        <li class="page-item @nextDisabled"><a asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex + 1)" class="page-link" }>Next</a></li>
+        <li class="page-item @nextDisabled">
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               asp-route-pageNumber="@(Model.PageIndex + 1)"
+               class="page-link" }>
+                Next
+            </a>
+        </li>
         <li class="page-item">
-            <a class="page-link" asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@Model.TotalPages" aria-label="EndPage">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               asp-route-pageNumber="@Model.TotalPages"
+               aria-label="EndPage">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>
