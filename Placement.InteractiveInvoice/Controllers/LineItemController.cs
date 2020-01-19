@@ -24,7 +24,7 @@ namespace Placement.InteractiveInvoice.Controllers
         {
             // default sort in ascending order by LineItemName
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParam"] = string.IsNullOrEmpty(sortOrder) ? "" : "name_desc";
+            ViewData["NameSortParam"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["BookedAmtParam"] = sortOrder == "BookedAmount" ? "booked_desc" : "booked_asc";
             ViewData["ActualAmtParam"] = sortOrder == "ActualAmount" ? "actual_desc" : "actual_asc";
             ViewData["AdjustParam"] = sortOrder == "Adjustments" ? "adj_desc" : "adj_asc";

@@ -20,10 +20,10 @@
     <thead>
         <tr>
             <th>
-                LineItem ID
+                LineItem ID <img src="/Assets/img/arrow-up-down.svg" alt="" width="25" height="25" title="Bootstrap">
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">LineItem Name</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" value="LineItemName">LineItem Name</a>
             </th>
             <th>
                 Campaign ID
@@ -32,13 +32,13 @@
                 <a></a>Campaign Name
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["BookedAmtParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Booked Amount</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["BookedAmtParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" value="BookedAmount">Booked Amount</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["ActualAmtParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Actual Amount</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["ActualAmtParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" value="ActualAmount">Actual Amount</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["AdjustParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Adjustments</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["AdjustParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" value="Adjustments">Adjustments</a>
             </th>
             <th>
                 Subtotal

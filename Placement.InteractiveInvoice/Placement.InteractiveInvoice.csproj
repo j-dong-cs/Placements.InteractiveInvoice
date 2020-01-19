@@ -27,6 +27,8 @@
     <Folder Include="Seed\" />
     <Folder Include="Views\LineItem\" />
     <Folder Include="Views\Campaign\" />
+    <Folder Include="Assets\" />
+    <Folder Include="Assets\img\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\InvoiceLine.cs" />
@@ -41,5 +43,8 @@
     <Content Remove="Seed\placements_sample_data.json" />
     <Content Remove="Seed\placements_sample_data.json" />
     <Content Remove="Views\Home\Privacy.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\img\filter_icon.png" />
   </ItemGroup>
 </Project>
