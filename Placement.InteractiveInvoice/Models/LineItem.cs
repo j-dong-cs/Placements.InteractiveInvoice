@@ -22,15 +22,15 @@ namespace Placement.InteractiveInvoice.Models
 
         [DisplayFormat(DataFormatString = "{0:C}")]
         [JsonPropertyName("booked_amount")]
-        public decimal BookedAmount { get; set; }
+        public double BookedAmount { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C}")]
         [JsonPropertyName("actual_amount")]
-        public decimal ActualAmount { get; set; }
+        public double ActualAmount { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C}")]
         [JsonPropertyName("adjustments")]
-        public decimal Adjustments { get; set; }
+        public double Adjustments { get; set; }
 
         // one lineitem only belong to one campaign
         public virtual Campaign Campaign { get; set; }

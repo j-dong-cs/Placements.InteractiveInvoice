@@ -32,13 +32,13 @@
                 <a></a>Campaign Name
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["BookedAmtParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" value="BookedAmount">Booked Amount</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["BookedAmtParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Booked Amount</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["ActualAmtParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" value="ActualAmount">Actual Amount</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["ActualAmtParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Actual Amount</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["AdjustParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" value="Adjustments">Adjustments</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["AdjustParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Adjustments</a>
             </th>
             <th>
                 Subtotal
@@ -73,7 +73,7 @@
                 @Html.DisplayFor(modelItem => item.Adjustments)
             </td>
             <td>
-               $@(Decimal.Round(item.ActualAmount + item.Adjustments, 2))
+               $@(Math.Round(item.ActualAmount + item.Adjustments, 2))
             </td>
         </tr>
         }

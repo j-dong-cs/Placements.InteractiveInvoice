@@ -25,9 +25,9 @@ namespace Placement.InteractiveInvoice.Controllers
             // default sort in ascending order by LineItemName
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParam"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["BookedAmtParam"] = sortOrder == "BookedAmount" ? "booked_desc" : "booked_asc";
-            ViewData["ActualAmtParam"] = sortOrder == "ActualAmount" ? "actual_desc" : "actual_asc";
-            ViewData["AdjustParam"] = sortOrder == "Adjustments" ? "adj_desc" : "adj_asc";
+            ViewData["BookedAmtParam"] = sortOrder == "BookedAmount" ? "booked_desc" : "BookedAmount";
+            ViewData["ActualAmtParam"] = sortOrder == "ActualAmount" ? "actual_desc" : "ActualAmount";
+            ViewData["AdjustParam"] = sortOrder == "Adjustments" ? "adj_desc" : "Adjustments";
 
             if (searchString != null)
             {
@@ -53,19 +53,19 @@ namespace Placement.InteractiveInvoice.Controllers
                 case "name_desc":
                     lineitems = lineitems.OrderByDescending(li => li.LineItemName);
                     break;
-                case "booked_asc":
+                case "BookedAmount":
                     lineitems = lineitems.OrderBy(li => li.BookedAmount);
                     break;
                 case "booked_desc":
                     lineitems = lineitems.OrderByDescending(li => li.BookedAmount);
                     break;
-                case "actual_acs":
+                case "ActualAmount":
                     lineitems = lineitems.OrderBy(li => li.ActualAmount);
                     break;
                 case "actual_desc":
                     lineitems = lineitems.OrderByDescending(li => li.ActualAmount);
                     break;
-                case "adj_asc":
+                case "Adjustments":
                     lineitems = lineitems.OrderBy(li => li.Adjustments);
                     break;
                 case "adj_desc":
@@ -75,8 +75,6 @@ namespace Placement.InteractiveInvoice.Controllers
                     lineitems = lineitems.OrderBy(li => li.LineItemName);
                     break;
             }
-
-            int total = await lineitems.CountAsync();
 
             return View("Index", await LineItemPaginatedList<LineItem>.CreateAsync(lineitems.AsNoTracking(), pageNumber ?? 1, PageSize));
         }
