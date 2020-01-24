@@ -76,7 +76,7 @@ namespace Placements.InteractiveInvoice.Controllers
                     break;
             }
 
-            return View("Index", await LineitemPaginatedList<Lineitem>.CreateAsync(lineitems.AsNoTracking(), pageNumber ?? 1, PageSize));
+            return View("Index", await PaginatedList<Lineitem>.CreateAsync(lineitems.AsNoTracking(), pageNumber ?? 1, PageSize));
         }
 
         // ~/Lineitem/Details/{LineitemID}

@@ -21,17 +21,21 @@ namespace Placements.InteractiveInvoice.Models
         public string LineitemName { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C}")]
+        [DataType(DataType.Currency)]
         [JsonPropertyName("booked_amount")]
         public decimal BookedAmount { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C}")]
+        [DataType(DataType.Currency)]
         [JsonPropertyName("actual_amount")]
         public decimal ActualAmount { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:C}")]
+        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Currency)]
         [JsonPropertyName("adjustments")]
         public decimal Adjustments { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C}")]
         [DataType(DataType.Currency)]
         [Display(Name = "Billable Amount")]
         public decimal BillableAmount

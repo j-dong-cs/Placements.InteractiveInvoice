@@ -29,4 +29,7 @@
   <ItemGroup>
     <Content Remove="Views\Home\Privacy.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Models\InvoicePaginatedList.cs" />
+  </ItemGroup>
 </Project>

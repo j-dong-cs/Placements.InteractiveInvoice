@@ -1,4 +1,4 @@
-@model LineitemPaginatedList<Placements.InteractiveInvoice.Models.Lineitem>
+@model PaginatedList<Placements.InteractiveInvoice.Models.Lineitem>
 
 @{
     ViewData["Title"] = "Index";
@@ -20,7 +20,7 @@
     <thead>
         <tr>
             <th>
-                LineItem ID <img src="/Assets/img/arrow-up-down.svg" alt="" width="25" height="25" title="Bootstrap">
+                LineItem ID
             </th>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" value="LineitemName">Lineitem Name</a>
@@ -29,7 +29,7 @@
                 Campaign ID
             </th>
             <th>
-                <a></a>Campaign Name
+                Campaign Name
             </th>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["BookedAmtParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Booked Amount</a>
@@ -41,7 +41,7 @@
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["AdjustParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Adjustments</a>
             </th>
             <th>
-                Subtotal
+                Billable Amount
             </th>
         </tr>
     </thead>
@@ -73,7 +73,7 @@
                     @Html.DisplayFor(modelItem => item.Adjustments)
                 </td>
                 <td>
-                    $@(Decimal.Round(item.ActualAmount + item.Adjustments, 2))
+                    @Html.DisplayFor(modelItem => item.BillableAmount)
                 </td>
             </tr>
         }
