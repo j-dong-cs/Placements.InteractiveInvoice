@@ -13,11 +13,16 @@ namespace Placements.InteractiveInvoice.Data
     {
         public static void Initialize(InteractiveInvoiceContext context)
         {
-            //context.Database.EnsureCreated();
+            /*
+            context.Database.EnsureCreated();
 
-            //context.Campaigns.RemoveRange(context.Campaigns);
-            //context.Lineitems.RemoveRange(context.Lineitems);
-            //context.SaveChanges();
+            context.Campaigns.RemoveRange(context.Campaigns);
+            context.Lineitems.RemoveRange(context.Lineitems);
+            context.Invoices.RemoveRange(context.Invoices);
+            context.InvoiceLineitems.RemoveRange(context.InvoiceLineitems);
+            context.Users.RemoveRange(context.Users);
+            context.SaveChanges();
+            */
 
             // Seed Campaign and Lineitem from JSON file
             if (context.Lineitems.Any()) // search for existing items
@@ -74,77 +79,51 @@ namespace Placements.InteractiveInvoice.Data
                 new User { UserName = "AliceLee", Password="password"}
             };
 
-            foreach (User u in users)
-            {
-                context.Users.Add(u);
-            }
+            context.Users.AddRange(users);
             context.SaveChanges();
 
             // seed invoice
-            var invoices = new Invoice[]
+            var invoiceNames = new string[]
             {
-                new Invoice { InvoiceName = "InvoiceAwesome",CreatedDate = DateTime.Parse("2020-01-15"), UserID = users.Single(u => u.UserName == "JingjingDong").UserID},
-                new Invoice { InvoiceName = "InvoiceErgonomicConcrete", CreatedDate = DateTime.Parse("2020-01-21"), UserID = users.Single(u => u.UserName == "JingjingDong").UserID},
-                new Invoice { InvoiceName = "InvoiceforHat", CreatedDate = DateTime.Parse("2019-12-30"), UserID = users.Single(u => u.UserName == "JacksonWang").UserID},
-                new Invoice { InvoiceName = "InvoiceforCar", CreatedDate = DateTime.Parse("2019-12-20"), UserID = users.Single(u => u.UserName == "JacksonWang").UserID},
-                new Invoice { InvoiceName = "InvoiceforShoe", CreatedDate = System.DateTime.Now, UserID = users.Single(u => u.UserName == "JohnSmith").UserID}
+                "Awesome", "Ergonomic", "Fantastic", "Gorgeous", "Incredible", "Intelligent", "Practical", "Sleek", "Small",
+                "Computer", "Hat", "Shoes", "Gloves", "Car", "Chair", "Pants", "Shirt", "Table"
             };
 
-            foreach (Invoice i in invoices)
+            var invoices = new List<Invoice>();
+            int year = 2019;
+            int month = 10;
+            int day = 1;
+            int count = 0;
+            foreach (string name in invoiceNames)
             {
-                context.Invoices.Add(i);
+                if (day > 30)
+                {
+                    month++;
+                    day = 1;
+                }
+                var invoice = new Invoice { InvoiceName = $"Invoice-{name}", CreatedDate = DateTime.Parse($"{year}-{month}-{day}"), UserID = users[count/5].UserID};
+                invoices.Add(invoice);
+                day += 5;
+                count++;
             }
+
+            context.Invoices.AddRange(invoices);
             context.SaveChanges();
 
             // seed invoicelineitem
-            var invoicelineitems = new InvoiceLineitem[]
-            {
-                new InvoiceLineitem
-                {
-                    InvoiceID = invoices.Single(i => i.InvoiceName == "InvoiceAwesome").InvoiceID,
-                    LineitemID = lineItems.Single(l => l.LineitemName == "Awesome Concrete Computer - 019f").LineitemID
-                },
-                new InvoiceLineitem
-                {
-                    InvoiceID = invoices.Single(i => i.InvoiceName == "InvoiceAwesome").InvoiceID,
-                    LineitemID = lineItems.Single(l => l.LineitemName == "Awesome Concrete Computer - 253e").LineitemID
-                },
-                new InvoiceLineitem
-                {
-                    InvoiceID = invoices.Single(i => i.InvoiceName == "InvoiceAwesome").InvoiceID,
-                    LineitemID = lineItems.Single(l => l.LineitemName == "Awesome Concrete Computer - 2c42").LineitemID
-                },
-                new InvoiceLineitem
-                {
-                    InvoiceID = invoices.Single(i => i.InvoiceName == "InvoiceAwesome").InvoiceID,
-                    LineitemID = lineItems.Single(l => l.LineitemName == "Awesome Concrete Car - 07ef").LineitemID
-                },
-                new InvoiceLineitem
-                {
-                    InvoiceID = invoices.Single(i => i.InvoiceName == "InvoiceAwesome").InvoiceID,
-                    LineitemID = lineItems.Single(l => l.LineitemName == "Awesome Concrete Car - 13fa").LineitemID
-                },
-                new InvoiceLineitem
-                {
-                    InvoiceID = invoices.Single(i => i.InvoiceName == "InvoiceAwesome").InvoiceID,
-                    LineitemID = lineItems.Single(l => l.LineitemName == "Awesome Concrete Car - 7048").LineitemID
-                },
-                new InvoiceLineitem
-                {
-                    InvoiceID = invoices.Single(i => i.InvoiceName == "InvoiceErgonomicConcrete").InvoiceID,
-                    LineitemID = lineItems.Single(l => l.LineitemName == "Ergonomic Concrete Car - 66ed").LineitemID
-                },
-                new InvoiceLineitem
-                {
-                    InvoiceID = invoices.Single(i => i.InvoiceName == "InvoiceErgonomicConcrete").InvoiceID,
-                    LineitemID = lineItems.Single(l => l.LineitemName == "Ergonomic Concrete Car - 77df").LineitemID
-                }
-            };
+            var invoicelineitems = new List<InvoiceLineitem>();
 
-            foreach (InvoiceLineitem il in invoicelineitems)
+            foreach (string name in invoiceNames)
             {
-                context.InvoiceLineitems.Add(il);
+                var lineitems = context.Lineitems.Where(l => l.LineitemName.Contains(name));
+                foreach (Lineitem lineitem in lineitems)
+                {
+                    var iljoin = new InvoiceLineitem { InvoiceID=invoices.Single(i => i.InvoiceName == $"Invoice-{name}").InvoiceID, LineitemID=lineitem.LineitemID };
+                    invoicelineitems.Add(iljoin);
+                }
             }
+
+            context.InvoiceLineitems.AddRange(invoicelineitems);
             context.SaveChanges();
         }
     }
