@@ -19,7 +19,7 @@ namespace Placements.InteractiveInvoice.Controllers
             _context = context;
         }
 
-        // ~/LineItem
+        // ~/Lineitem
         public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
             // default sort in ascending order by LineItemName
@@ -45,13 +45,13 @@ namespace Placements.InteractiveInvoice.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                lineitems = lineitems.Where(li => li.LineItemName.Contains(searchString) || li.CampaignName.Contains(searchString));
+                lineitems = lineitems.Where(li => li.LineitemName.Contains(searchString) || li.CampaignName.Contains(searchString));
             }
 
             switch (sortOrder)
             {
                 case "name_desc":
-                    lineitems = lineitems.OrderByDescending(li => li.LineItemName);
+                    lineitems = lineitems.OrderByDescending(li => li.LineitemName);
                     break;
                 case "BookedAmount":
                     lineitems = lineitems.OrderBy(li => li.BookedAmount);
@@ -72,14 +72,14 @@ namespace Placements.InteractiveInvoice.Controllers
                     lineitems = lineitems.OrderByDescending(li => li.Adjustments);
                     break;
                 default:
-                    lineitems = lineitems.OrderBy(li => li.LineItemName);
+                    lineitems = lineitems.OrderBy(li => li.LineitemName);
                     break;
             }
 
             return View("Index", await LineitemPaginatedList<Lineitem>.CreateAsync(lineitems.AsNoTracking(), pageNumber ?? 1, PageSize));
         }
 
-        // ~/LineItem/Details/{LineItemID}
+        // ~/Lineitem/Details/{LineitemID}
         public async Task<IActionResult> Details(int? LineItemID)
         {
             if (LineItemID == null)

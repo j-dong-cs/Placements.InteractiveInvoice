@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Placements.InteractiveInvoice.Data;
 
 namespace Placements.InteractiveInvoice.Migrations
 {
     [DbContext(typeof(InteractiveInvoiceContext))]
-    partial class InteractiveInvoiceContextModelSnapshot : ModelSnapshot
+    [Migration("20200124071434_addInvoiceNameCol")]
+    partial class addInvoiceNameCol
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,9 +47,6 @@ namespace Placements.InteractiveInvoice.Migrations
                     b.Property<string>("Body")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("LineitemID")
                         .HasColumnType("int");
@@ -181,13 +180,13 @@ namespace Placements.InteractiveInvoice.Migrations
 
             modelBuilder.Entity("Placements.InteractiveInvoice.Models.InvoiceLineitem", b =>
                 {
-                    b.HasOne("Placements.InteractiveInvoice.Models.Invoice", "Invoice")
+                    b.HasOne("Placements.InteractiveInvoice.Models.Lineitem", "Lineitem")
                         .WithMany("InvoiceLineitems")
                         .HasForeignKey("InvoiceID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Placements.InteractiveInvoice.Models.Lineitem", "Lineitem")
+                    b.HasOne("Placements.InteractiveInvoice.Models.Invoice", "Invoice")
                         .WithMany("InvoiceLineitems")
                         .HasForeignKey("LineitemID")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -23,7 +23,7 @@
                 LineItem ID <img src="/Assets/img/arrow-up-down.svg" alt="" width="25" height="25" title="Bootstrap">
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" value="LineItemName">LineItem Name</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" value="LineitemName">Lineitem Name</a>
             </th>
             <th>
                 Campaign ID
@@ -55,7 +55,7 @@
                     </a>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LineItemName)
+                    @Html.DisplayFor(modelItem => item.LineitemName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CampaignID)

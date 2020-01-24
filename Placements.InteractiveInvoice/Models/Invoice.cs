@@ -9,6 +9,8 @@ namespace Placements.InteractiveInvoice.Models
     {
         public int InvoiceID { get; set; }
 
+        public string InvoiceName { get; set; }
+
         [DataType(DataType.DateTime)]
         [DisplayName("Created Date")]
         [DisplayFormat(DataFormatString = "{0:G}")]

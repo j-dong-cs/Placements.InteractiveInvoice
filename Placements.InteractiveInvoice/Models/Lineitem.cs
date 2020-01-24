@@ -18,7 +18,7 @@ namespace Placements.InteractiveInvoice.Models
 
         [Required]
         [JsonPropertyName("line_item_name")]
-        public string LineItemName { get; set; }
+        public string LineitemName { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C}")]
         [JsonPropertyName("booked_amount")]
@@ -31,6 +31,16 @@ namespace Placements.InteractiveInvoice.Models
         [DisplayFormat(DataFormatString = "{0:C}")]
         [JsonPropertyName("adjustments")]
         public decimal Adjustments { get; set; }
+
+        [DataType(DataType.Currency)]
+        [Display(Name = "Billable Amount")]
+        public decimal BillableAmount
+        {
+            get
+            {
+                return ActualAmount + Adjustments;
+            }
+        }
 
         // one lineitem only belong to one campaign
         public virtual Campaign Campaign { get; set; }

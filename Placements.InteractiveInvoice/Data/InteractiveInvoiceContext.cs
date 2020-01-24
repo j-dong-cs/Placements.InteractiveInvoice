@@ -11,6 +11,7 @@ namespace Placements.InteractiveInvoice.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<InvoiceLineitem> InvoiceLineitems { get; set; }
 
         public InteractiveInvoiceContext(DbContextOptions<InteractiveInvoiceContext> options) : base(options)
         {
@@ -25,15 +26,7 @@ namespace Placements.InteractiveInvoice.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<InvoiceLineitem>()
-                .HasKey(bc => new { bc.InvoiceID, bc.LineitemID });
-            modelBuilder.Entity<InvoiceLineitem>()
-                .HasOne(bc => bc.Invoice)
-                .WithMany(b => b.InvoiceLineitems)
-                .HasForeignKey(bc => bc.LineitemID);
-            modelBuilder.Entity<InvoiceLineitem>()
-                .HasOne(bc => bc.Lineitem)
-                .WithMany(c => c.InvoiceLineitems)
-                .HasForeignKey(bc => bc.InvoiceID);
+                .HasKey(il => new { il.InvoiceID, il.LineitemID });
 
             modelBuilder.Entity<Lineitem>()
                 .Property(l => l.BookedAmount)

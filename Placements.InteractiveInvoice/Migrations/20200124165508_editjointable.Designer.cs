@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Placements.InteractiveInvoice.Data;
 
 namespace Placements.InteractiveInvoice.Migrations
 {
     [DbContext(typeof(InteractiveInvoiceContext))]
-    partial class InteractiveInvoiceContextModelSnapshot : ModelSnapshot
+    [Migration("20200124165508_editjointable")]
+    partial class editjointable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
