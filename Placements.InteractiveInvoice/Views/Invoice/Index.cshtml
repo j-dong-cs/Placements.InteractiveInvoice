@@ -52,10 +52,10 @@
                     @Html.DisplayFor(modelItem => item.CreatedDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.User.UserID)
+                    @Html.DisplayFor(modelItem => item.User.UserName)
                 </td>
                 <td>
-                    
+                    @Html.DisplayFor(modelItem => item.InvoiceLineitems.Count)
                 </td>
             </tr>
         }

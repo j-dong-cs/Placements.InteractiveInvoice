@@ -76,7 +76,13 @@ namespace Placements.InteractiveInvoice.Controllers
                     break;
             }
 
-            return View("Index", await PaginatedList<Invoice>.CreateAsync(invoices.AsNoTracking(), pageNumber ?? 1, PageSize));
+            invoices = invoices
+                .Include(i => i.User)
+                .Include(i => i.InvoiceLineitems)
+                    .ThenInclude(i => i.Lineitem)
+                .AsNoTracking();
+
+            return View("Index", await PaginatedList<Invoice>.CreateAsync(invoices, pageNumber ?? 1, PageSize));
         }
     }
 }
