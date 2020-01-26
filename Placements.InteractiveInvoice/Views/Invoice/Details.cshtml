@@ -1,0 +1,153 @@
+@model Placements.InteractiveInvoice.Models.ViewModels.InvoiceDetailsData
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h3>@Html.DisplayFor(model => model.Invoice.InvoiceName)</h3>
+
+<h5>Grand Total: @Html.DisplayFor(model => model.GrandTotal)</h5>
+
+<form asp-action="Details" method="get">
+    <div class="form-actions no-color">
+        <div class="form-row">
+            <input class="form-control col-md-4" type="text" name="searchString" value=@ViewData["CurrentFilter"] placeholder="Search by name" />
+            <input class="btn btn-outline-primary" type="submit" value="Search" />
+            <a class="btn btn-outline-secondary" asp-action="Details">Clear</a>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Details" asp-route-sortOrder=@ViewData["IDSortParam"] asp-route-currentFilter=@ViewData["CurrentFilter"]>LineItem ID</a>
+            </th>
+            <th>
+                <a asp-action="Details" asp-route-sortOrder=@ViewData["NameSortParam"] asp-route-currentFilter=@ViewData["CurrentFilter"]>Lineitem Name</a>
+            </th>
+            <th>
+                Campaign ID
+            </th>
+            <th>
+                Campaign Name
+            </th>
+            <th>
+                <a asp-action="Details" asp-route-sortOrder=@ViewData["BookedAmtParam"] asp-route-currentFilter=@ViewData["CurrentFilter"]>Booked Amount</a>
+            </th>
+            <th>
+                <a asp-action="Details" asp-route-sortOrder=@ViewData["ActualAmtParam"] asp-route-currentFilter=@ViewData["CurrentFilter"]>Actual Amount</a>
+            </th>
+            <th>
+                <a asp-action="Details" asp-route-sortOrder=@ViewData["AdjustParam"] asp-route-currentFilter=@ViewData["CurrentFilter"]>Adjustments</a>
+            </th>
+            <th>
+                <a asp-action="Details" asp-route-sortOrder=@ViewData["BillableAmtParam"] asp-route-currentFilter=@ViewData["CurrentFilter"]>Billable Amount</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.pagedLineitems)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="LineItem" asp-action="Details" asp-route-id="@item.LineitemID">
+                        @Html.DisplayFor(modelItem => item.LineitemID)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LineitemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CampaignID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CampaignName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookedAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActualAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Adjustments)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BillableAmount)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var preDisabled = Model.pagedLineitems.HasPreviousPage ? "" : "disabled";
+    var nextDisabled = Model.pagedLineitems.HasNextPage ? "" : "disabled";
+}
+
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a class="page-link"
+               asp-action="Details"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               asp-route-pageNumber="1"
+               aria-label="StartPage">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item @preDisabled">
+            <a asp-action="Details"
+               asp-route-sortOrder=@ViewData["CurrentSort"]
+               asp-route-currentFilter=@ViewData["CurrentFilter"]
+               asp-route-pageNumber=@(Model.pagedLineitems.PageIndex - 1)
+               class="page-link" }>
+                Previous
+            </a>
+        </li>
+        @{
+            var pagesPerView = 10;
+            var startIndex = Model.pagedLineitems.PageIndex - pagesPerView / 2;
+            startIndex = startIndex < 1 ? 1 : startIndex;
+            var endIndex = startIndex + pagesPerView - 1;
+            endIndex = endIndex > Model.pagedLineitems.TotalPages ? Model.pagedLineitems.TotalPages : endIndex;
+        }
+        @for (int i = startIndex; i <= endIndex; i++)
+        {
+            <li class="page-item">
+                <a asp-action="Details"
+                   asp-route-sortOrder=@ViewData["CurrentSort"]
+                   asp-route-currentFilter=@ViewData["CurrentFilter"]
+                   asp-route-pageNumber=@i
+                   class="page-link">
+                    @i
+                </a>
+            </li>
+        }
+        <li class="page-item @nextDisabled">
+            <a asp-action="Details"
+               asp-route-sortOrder=@ViewData["CurrentSort"]
+               asp-route-currentFilter=@ViewData["CurrentFilter"]
+               asp-route-pageNumber=@(Model.pagedLineitems.PageIndex + 1)
+               class="page-link" }>
+                Next
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link"
+               asp-action="Details"
+               asp-route-sortOrder=@ViewData["CurrentSort"]
+               asp-route-currentFilter=@ViewData["CurrentFilter"]
+               asp-route-pageNumber=@Model.pagedLineitems.TotalPages
+               aria-label="EndPage">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+

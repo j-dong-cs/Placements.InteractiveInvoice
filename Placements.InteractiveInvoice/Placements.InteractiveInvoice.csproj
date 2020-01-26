@@ -25,6 +25,7 @@
     <Folder Include="Data\" />
     <Folder Include="Views\Lineitem\" />
     <Folder Include="Views\Invoice\" />
+    <Folder Include="Models\ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Home\Privacy.cshtml" />

@@ -29,7 +29,7 @@
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" value="CreatedDate">Created Date</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["UserParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" value="UserID">Created By</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["UserParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" value="UserName">Created By</a>
             </th>
             <th>
                 Number of Lineitems
@@ -41,7 +41,7 @@
         {
             <tr>
                 <td>
-                    <a asp-controller="LineItem" asp-action="Details" asp-route-LineItemID="@item.InvoiceID">
+                    <a asp-controller="Invoice" asp-action="Details" asp-route-id="@item.InvoiceID">
                         @Html.DisplayFor(modelItem => item.InvoiceID)
                     </a>
                 </td>

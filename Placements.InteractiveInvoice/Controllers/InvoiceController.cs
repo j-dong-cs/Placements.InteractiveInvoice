@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Placements.InteractiveInvoice.Data;
 using Placements.InteractiveInvoice.Models;
 using Microsoft.EntityFrameworkCore;
+using Placements.InteractiveInvoice.Models.ViewModels;
 
 namespace Placements.InteractiveInvoice.Controllers
 {
     public class InvoiceController : Controller
     {
-        private readonly int PageSize = 10;
+        private readonly int InvoiceListPageSize = 10;
+        private readonly int InvoiceDetailsPageSize = 30;
         private readonly InteractiveInvoiceContext _context;
 
         public InvoiceController(InteractiveInvoiceContext context)
@@ -24,10 +26,10 @@ namespace Placements.InteractiveInvoice.Controllers
         {
             // default sort in ascending order by Invoice CreatedDate
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["DateSortParam"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParam"] = string.IsNullOrEmpty(sortOrder) ? "date_desc" : "";
             ViewData["IDParam"] = sortOrder == "InvoiceID" ? "ID_desc" : "InvoiceID";
             ViewData["NameParam"] = sortOrder == "InvoiceName" ? "name_desc" : "InvoiceName";
-            ViewData["UserParam"] = sortOrder == "UserID" ? "user_desc" : "UserID";
+            ViewData["UserParam"] = sortOrder == "UserName" ? "user_desc" : "UserName";
 
             if (searchString != null)
             {
@@ -40,8 +42,11 @@ namespace Placements.InteractiveInvoice.Controllers
 
             ViewData["CurrentFilter"] = searchString;
 
-            var invoices = from invoice in _context.Invoices
-                           select invoice;
+            var invoices = _context.Invoices
+                            .Include(i => i.User)
+                            .Include(i => i.InvoiceLineitems)
+                                .ThenInclude(i => i.Lineitem)
+                            .AsNoTracking();
 
             if (!string.IsNullOrEmpty(searchString)) // search by invoicename
             {
@@ -65,24 +70,102 @@ namespace Placements.InteractiveInvoice.Controllers
                 case "name_desc":
                     invoices = invoices.OrderByDescending(i => i.InvoiceName);
                     break;
-                case "UserID":
-                    invoices = invoices.OrderBy(i => i.UserID);
+                case "UserName":
+                    invoices = invoices.OrderBy(i => i.User.UserName);
                     break;
                 case "user_desc":
-                    invoices = invoices.OrderByDescending(i => i.UserID);
+                    invoices = invoices.OrderByDescending(i => i.User.UserName);
                     break;
                 default:
                     invoices = invoices.OrderBy(i => i.CreatedDate);
                     break;
             }
 
-            invoices = invoices
-                .Include(i => i.User)
-                .Include(i => i.InvoiceLineitems)
-                    .ThenInclude(i => i.Lineitem)
-                .AsNoTracking();
+            return View("Index", await PaginatedList<Invoice>.CreateAsync(invoices, pageNumber ?? 1, InvoiceListPageSize));
+        }
 
-            return View("Index", await PaginatedList<Invoice>.CreateAsync(invoices, pageNumber ?? 1, PageSize));
+        //~/Invoice/Details/{invoiceID}
+        public async Task<IActionResult> Details(int? id, string sortOrder, string searchString, string currentFilter, int? pageNumber)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // default sort in ascending order by LineitemID
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["IDSortParam"] = string.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewData["NameSortParam"] = sortOrder == "LineitemName" ? "name_desc" : "LineitemName";
+            ViewData["BookedAmtParam"] = sortOrder == "BookedAmount" ? "booked_desc" : "BookedAmount";
+            ViewData["ActualAmtParam"] = sortOrder == "ActualAmount" ? "actual_desc" : "ActualAmount";
+            ViewData["BillableAmtParam"] = sortOrder == "BillableAmount" ? "subtotal_desc" : "BillableAmount";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["invoiceID"] = id;
+            ViewData["CurrentFilter"] = searchString;
+
+            // eager loading
+            var viewModel = new InvoiceDetailsData();
+            viewModel.Invoice = await _context.Invoices
+                                .Include(i => i.User)
+                                .Include(i => i.InvoiceLineitems)
+                                    .ThenInclude(i => i.Lineitem)
+                                .AsNoTracking()
+                                .FirstOrDefaultAsync(i => i.InvoiceID == id);
+
+            var lineitems = viewModel.Invoice.InvoiceLineitems.Select(i => i.Lineitem);
+
+            if (!string.IsNullOrEmpty(searchString)) // search by invoicename
+            {
+                lineitems = lineitems.Where(i => i.LineitemName.Contains(searchString) || i.CampaignName.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "id_desc":
+                    lineitems = lineitems.OrderByDescending(l => l.LineitemID);
+                    break;
+                case "LineitemName":
+                    lineitems = lineitems.OrderBy(l => l.LineitemName);
+                    break;
+                case "name_desc":
+                    lineitems = lineitems.OrderByDescending(l => l.LineitemName);
+                    break;
+                case "BookedAmount":
+                    lineitems = lineitems.OrderBy(l => l.BookedAmount);
+                    break;
+                case "booked_desc":
+                    lineitems = lineitems.OrderByDescending(l => l.BookedAmount);
+                    break;
+                case "ActualAmount":
+                    lineitems = lineitems.OrderBy(l => l.ActualAmount);
+                    break;
+                case "actual_desc":
+                    lineitems = lineitems.OrderByDescending(l => l.ActualAmount);
+                    break;
+                case "BillableAmount":
+                    lineitems = lineitems.OrderBy(l => l.BillableAmount);
+                    break;
+                case "subtotal_desc":
+                    lineitems = lineitems.OrderByDescending(l => l.BillableAmount);
+                    break;
+                default:
+                    lineitems = lineitems.OrderBy(l => l.LineitemID);
+                    break;
+            }
+
+            viewModel.lineitems = lineitems;
+            viewModel.pagedLineitems = PaginatedList<Lineitem>.Create(lineitems.AsQueryable(), pageNumber ?? 1, InvoiceDetailsPageSize);
+
+            return View("Details", viewModel);
         }
     }
 }
