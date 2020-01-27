@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Placements.InteractiveInvoice.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Placements.InteractiveInvoice
 {
@@ -28,6 +29,10 @@ namespace Placements.InteractiveInvoice
             services.AddControllersWithViews();
 
             services.AddDbContext<InteractiveInvoiceContext>(options => options.UseSqlServer(Configuration.GetConnectionString("InteractiveInvoiceContext")));
+
+            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<InteractiveInvoiceContext>();
+
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,7 +59,8 @@ namespace Placements.InteractiveInvoice
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id:int?}");
+                    pattern: "{controller=Home}/{action=Index}/{id:int?}/{invoiceID:int?}");
+                endpoints.MapRazorPages();
             });
         }
     }

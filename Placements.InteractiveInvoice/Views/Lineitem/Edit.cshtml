@@ -1,3 +1,58 @@
 @model Placements.InteractiveInvoice.Models.Lineitem
 
+@{
+    ViewData["Title"] = "Edit";
+}
 
+<h2>Edit Lineitem: @Html.DisplayFor(model => Model.LineitemName)</h2>
+
+<hr />
+
+<div class="container">
+    <div class="row align-items-start">
+        <div class="col">
+            <h5>@Html.DisplayNameFor(model => model.LineitemID): @Html.DisplayFor(model => model.LineitemID) </h5>
+        </div>
+    </div>
+    <div class="row align-items-start">
+        <div class="col">
+            <h5>@Html.DisplayNameFor(model => model.LineitemName): @Html.DisplayFor(model => model.LineitemName) </h5>
+        </div>
+    </div>
+    <div class="row align-items-start">
+        <div class="col">
+            <h5>@Html.DisplayNameFor(model => model.CampaignID): @Html.DisplayFor(model => model.CampaignID) </h5>
+        </div>
+    </div>
+    <div class="row align-items-start">
+        <div class="col">
+            <h5>@Html.DisplayNameFor(model => model.CampaignName): @Html.DisplayFor(model => model.CampaignName) </h5>
+        </div>
+    </div>
+    <div class="row align-items-start">
+        <div class="col">
+            <h5>@Html.DisplayNameFor(model => model.BookedAmount): @Html.DisplayFor(model => model.BookedAmount) </h5>
+        </div>
+    </div>
+    <div class="row align-items-start">
+        <div class="col">
+            <h5>@Html.DisplayNameFor(model => model.ActualAmount): @Html.DisplayFor(model => model.ActualAmount) </h5>
+        </div>
+    </div>
+    <form asp-action="Edit">
+        <div class="row align-items-start">
+            <div class="col">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Adjustments" class="control-label"></label>
+                    <input asp-for="Adjustments" class="form-control" />
+                    <span asp-validation-for="Adjustments" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
+    <a asp-controller="Invoice" asp-action="Details" asp-route-invoiceID=@ViewData["invoiceID"]>Back to List</a>
+</div>

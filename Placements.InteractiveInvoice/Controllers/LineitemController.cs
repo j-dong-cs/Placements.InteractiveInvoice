@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Placements.InteractiveInvoice.Data;
 using Placements.InteractiveInvoice.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Routing;
 
 namespace Placements.InteractiveInvoice.Controllers
 {
@@ -79,7 +80,7 @@ namespace Placements.InteractiveInvoice.Controllers
             return View("Index", await PaginatedList<Lineitem>.CreateAsync(lineitems.AsNoTracking(), pageNumber ?? 1, PageSize));
         }
 
-        // ~/Lineitem/Details/{id}
+        // ~/Lineitem/Details/{id}/{invoiceID}
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -125,6 +126,8 @@ namespace Placements.InteractiveInvoice.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, int? invoiceID)
         {
+            ViewData["invoiceID"] = invoiceID;
+
             if (id == null)
             {
                 return NotFound();
@@ -147,7 +150,7 @@ namespace Placements.InteractiveInvoice.Controllers
                     ModelState.AddModelError("","Unable o save changes to edit lineitem adjustments. Try again, if the problem persists, see system administrator.");
                 }
 
-                return RedirectToAction(nameof(Details), nameof(Invoice), invoiceID);
+                return RedirectToAction(nameof(Details), nameof(Invoice), new { id=invoiceID });
             }
 
             return View(lineitemToUpdate);

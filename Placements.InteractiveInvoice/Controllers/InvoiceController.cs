@@ -176,5 +176,10 @@ namespace Placements.InteractiveInvoice.Controllers
 
             return View("Details", viewModel);
         }
+
+        public void ExportToExcel(int? id)
+        {
+
+        }
     }
 }
