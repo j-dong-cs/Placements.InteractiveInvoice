@@ -128,6 +128,15 @@ namespace Placements.InteractiveInvoice.Controllers
                 lineitems = lineitems.Where(i => i.LineitemName.Contains(searchString) || i.CampaignName.Contains(searchString));
             }
 
+            viewModel.groupData = from lineitem in lineitems
+                                  group lineitem by lineitem.CampaignName into campaignGroup
+                                  select new CampaignGroup()
+                                  {
+                                    CampaignName = campaignGroup.Key,
+                                    Subtotal = campaignGroup.Sum(l => l.BillableAmount)
+                                  };
+            viewModel.groupData = viewModel.groupData.OrderBy(c => c.CampaignName);
+
             switch (sortOrder)
             {
                 case "id_desc":

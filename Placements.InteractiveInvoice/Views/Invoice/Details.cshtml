@@ -8,17 +8,69 @@
 
 <h5>Grand Total: @Html.DisplayFor(model => model.GrandTotal)</h5>
 
-<form asp-action="Details" method="get">
-    <div class="form-actions no-color">
-        <div class="form-row">
-            <input class="form-control col-md-4" type="text" name="searchString" value=@ViewData["CurrentFilter"] placeholder="Search by name" />
-            <input class="btn btn-outline-primary" type="submit" value="Search" />
-            <a class="btn btn-outline-secondary" asp-action="Details">Clear</a>
+<div class="container">
+    <div class="row">
+        <div class="col-9">
+            <form asp-action="Details" method="get">
+                <div class="form-actions no-color">
+                    <div class="form-row">
+                        <input class="form-control col-md-4" type="text" name="searchString" value=@ViewData["CurrentFilter"] placeholder="Search by name" />
+                        <input class="btn btn-outline-primary" type="submit" value="Search" />
+                        <a class="btn btn-outline-secondary" asp-action="Details">Clear</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-3">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#campaigngroup">
+                View Subtotal by Campaign
+            </button>
         </div>
     </div>
-</form>
+</div>
 
-<table class="table">
+<!-- Modal -->
+<div class="modal fade" id="campaigngroup" tabindex="-1" role="dialog" aria-labelledby="subtotalbycampaign" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="subtotalbycampaign">Subtotal by Campaign</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">Campaign</th>
+                            <th scope="col">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.groupData)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CampaignName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Subtotal)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-hover">
     <thead>
         <tr>
             <th>
@@ -52,7 +104,7 @@
         {
             <tr>
                 <td>
-                    <a asp-controller="LineItem" asp-action="Details" asp-route-id="@item.LineitemID">
+                    <a asp-controller="Lineitem" asp-action="Details" asp-route-id="@item.LineitemID">
                         @Html.DisplayFor(modelItem => item.LineitemID)
                     </a>
                 </td>
@@ -76,6 +128,11 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.BillableAmount)
+                </td>
+                <td>
+                    <a asp-controller="Lineitem" asp-action="Edit" asp-route-id="@item.LineitemID" asp-route-invoiceID="@Model.Invoice.InvoiceID">
+                        Edit
+                    </a>
                 </td>
             </tr>
         }

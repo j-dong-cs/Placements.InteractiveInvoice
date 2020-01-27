@@ -79,10 +79,10 @@ namespace Placements.InteractiveInvoice.Controllers
             return View("Index", await PaginatedList<Lineitem>.CreateAsync(lineitems.AsNoTracking(), pageNumber ?? 1, PageSize));
         }
 
-        // ~/Lineitem/Details/{LineitemID}
-        public async Task<IActionResult> Details(int? LineItemID)
+        // ~/Lineitem/Details/{id}
+        public async Task<IActionResult> Details(int? id)
         {
-            if (LineItemID == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -90,7 +90,7 @@ namespace Placements.InteractiveInvoice.Controllers
             var lineitem = await _context.Lineitems
                 .Include(item => item.Comments)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(item => item.LineitemID == LineItemID);
+                .FirstOrDefaultAsync(item => item.LineitemID == id);
 
             if (lineitem == null)
             {
@@ -98,6 +98,59 @@ namespace Placements.InteractiveInvoice.Controllers
             }
 
             return View("Details", lineitem);
+        }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var lineitem = await _context.Lineitems
+                            .Include(l => l.InvoiceLineitems)
+                                .ThenInclude(l => l.Invoice)
+                            .AsNoTracking()
+                            .FirstOrDefaultAsync(l => l.LineitemID == id);
+
+            if (lineitem == null)
+            {
+                return NotFound();
+            }
+
+            return View(lineitem);
+        }
+
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int? id, int? invoiceID)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var lineitemToUpdate = await _context.Lineitems
+                                    .Include(l => l.InvoiceLineitems)
+                                        .ThenInclude(l => l.Invoice)
+                                    .FirstOrDefaultAsync(l => l.LineitemID == id);
+
+            if (await TryUpdateModelAsync<Lineitem>(lineitemToUpdate, "", l => l.Adjustments))
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException)
+                {
+                    // log error
+                    ModelState.AddModelError("","Unable o save changes to edit lineitem adjustments. Try again, if the problem persists, see system administrator.");
+                }
+
+                return RedirectToAction(nameof(Details), nameof(Invoice), invoiceID);
+            }
+
+            return View(lineitemToUpdate);
         }
     }
 }
