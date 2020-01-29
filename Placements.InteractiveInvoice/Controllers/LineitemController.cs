@@ -80,7 +80,7 @@ namespace Placements.InteractiveInvoice.Controllers
             return View("Index", await PaginatedList<Lineitem>.CreateAsync(lineitems.AsNoTracking(), pageNumber ?? 1, PageSize));
         }
 
-        // ~/Lineitem/Details/{id}/{invoiceID}
+        // ~/Lineitem/Details/{id}
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

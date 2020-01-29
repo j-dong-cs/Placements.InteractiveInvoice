@@ -43,7 +43,6 @@ namespace Placements.InteractiveInvoice.Controllers
             ViewData["CurrentFilter"] = searchString;
 
             var invoices = _context.Invoices
-                            .Include(i => i.User)
                             .Include(i => i.InvoiceLineitems)
                                 .ThenInclude(i => i.Lineitem)
                             .AsNoTracking();
@@ -71,10 +70,10 @@ namespace Placements.InteractiveInvoice.Controllers
                     invoices = invoices.OrderByDescending(i => i.InvoiceName);
                     break;
                 case "UserName":
-                    invoices = invoices.OrderBy(i => i.User.UserName);
+                    invoices = invoices.OrderBy(i => i.UserName);
                     break;
                 case "user_desc":
-                    invoices = invoices.OrderByDescending(i => i.User.UserName);
+                    invoices = invoices.OrderByDescending(i => i.UserName);
                     break;
                 default:
                     invoices = invoices.OrderBy(i => i.CreatedDate);
@@ -115,7 +114,6 @@ namespace Placements.InteractiveInvoice.Controllers
             // eager loading
             var viewModel = new InvoiceDetailsData();
             viewModel.Invoice = await _context.Invoices
-                                .Include(i => i.User)
                                 .Include(i => i.InvoiceLineitems)
                                     .ThenInclude(i => i.Lineitem)
                                 .AsNoTracking()

@@ -1,0 +1,12 @@
+@model Placements.InteractiveInvoice.Models.Comment
+
+
+<div class="lineitem-comment">
+    <div class="lineitem-comment-from">
+        From:
+        @Html.DisplayFor(modelItem => Model.UserName)
+    </div>
+    <div class="lineitem-comment-body">
+        @Html.DisplayFor(modelItem => Model.Body)
+    </div>
+</div>

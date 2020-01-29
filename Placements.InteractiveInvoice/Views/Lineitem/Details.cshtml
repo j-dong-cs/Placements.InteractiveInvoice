@@ -1,0 +1,16 @@
+@model Placements.InteractiveInvoice.Models.Lineitem
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Lineitem: @Html.DisplayFor(l => l.LineitemName)</h2>
+
+@foreach (var item in Model.Comments)
+{
+    @await Html.PartialAsync("_DisplayComment", item, new ViewDataDictionary(ViewData) { { "id", item.CommentID } });
+}
+
+<div>
+    <partial name="_CreateAComment"/>
+</div>

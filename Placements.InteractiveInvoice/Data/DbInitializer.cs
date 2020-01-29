@@ -15,14 +15,14 @@ namespace Placements.InteractiveInvoice.Data
         {
             /*
             context.Database.EnsureCreated();
+            */
 
             context.Campaigns.RemoveRange(context.Campaigns);
             context.Lineitems.RemoveRange(context.Lineitems);
             context.Invoices.RemoveRange(context.Invoices);
             context.InvoiceLineitems.RemoveRange(context.InvoiceLineitems);
-            context.Users.RemoveRange(context.Users);
             context.SaveChanges();
-            */
+            
 
             // Seed Campaign and Lineitem from JSON file
             if (context.Lineitems.Any()) // search for existing items
@@ -58,7 +58,7 @@ namespace Placements.InteractiveInvoice.Data
                 context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Lineitems ON");
                 foreach (Lineitem item in lineItems)
                 {
-                    item.Campaign = context.Campaigns.Where(c => c.CampaignID == item.CampaignID).Single();
+                    item.Campaign = context.Campaigns.Where(c => c.CampaignID == item.CampaignID).SingleOrDefault();
                     context.Lineitems.Add(item);
                 }
                 context.SaveChanges();
@@ -69,17 +69,26 @@ namespace Placements.InteractiveInvoice.Data
                 context.Database.CloseConnection();
             }
 
-            // seed user
-            var users = new User[]
-            {
-                new User { UserName = "JohnSmith", Password="password"},
-                new User { UserName = "JingjingDong", Password="password"},
-                new User { UserName = "JoeHanks", Password="password"},
-                new User { UserName = "JacksonWang", Password="password"},
-                new User { UserName = "AliceLee", Password="password"}
-            };
+            var userName = new string[] { "May Wang", "Jackson Wang", "Jingjing Dong", "Alice Ann", "John Doe", "Sandy Smith", "Bobby Ben", "Eve Yang" };
 
-            context.Users.AddRange(users);
+            var body = new string[] { "Please remove campaign id: 30", "I archived lineitem 25.", "Adjustments on lineitem 25,30, and 35.", "This is duplicate, please remove.", "Terrific.", "Awesome." };
+            var comments = new List<Comment>();
+
+            var lineitemID = new int[] { 4, 13, 28, 33, 34, 35, 45, 263, 265, 269, 9980, 9989, 9901};
+            foreach (var id in lineitemID)
+            {
+                var lineitem = context.Lineitems.Where(l => l.LineitemID == id).SingleOrDefault();
+            }
+
+            for (int i = 0; i < lineitemID.Length; i++)
+            {
+                foreach (var b in body)
+                {
+                    var newComment = new Comment { Body = b, CreatedDate = DateTime.Now, LineitemID = lineitemID[i], UserName = userName[i/2] };
+                    comments.Add(newComment);
+                }
+            }
+            context.Comments.AddRange(comments);
             context.SaveChanges();
 
             // seed invoice
@@ -101,7 +110,7 @@ namespace Placements.InteractiveInvoice.Data
                     month++;
                     day = 1;
                 }
-                var invoice = new Invoice { InvoiceName = $"Invoice-{name}", CreatedDate = DateTime.Parse($"{year}-{month}-{day}"), UserID = users[count/5].UserID};
+                var invoice = new Invoice { InvoiceName = $"Invoice-{name}", CreatedDate = DateTime.Parse($"{year}-{month}-{day}"), UserName = userName[count/5]};
                 invoices.Add(invoice);
                 day += 5;
                 count++;

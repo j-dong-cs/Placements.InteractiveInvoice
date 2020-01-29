@@ -1,0 +1,11 @@
+@model Placements.InteractiveInvoice.Models.Comment
+
+@Html.ValidationSummary(true)
+
+    <form asp-controller="Comment" asp-action="_Create">
+        <div class="form-group">
+            <label for="newComment">New Comment</label>
+            <textarea class="form-control" id="newComment" rows="5"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>

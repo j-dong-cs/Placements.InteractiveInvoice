@@ -1,0 +1,33 @@
+@model IEnumerable<Placements.InteractiveInvoice.Models.Comment>
+
+<h3>Comments</h3>
+
+@{
+    if (Model.Count() > 0)
+    {
+        <div id="comments-tool">
+            <div id="all-comments">
+                @foreach (var comment in Model)
+                {
+                    <div class="lineitem-comment">
+                        <div class="lineitem-comment-from">
+                            From:
+                            @Html.DisplayFor(modelItem => comment.UserName)
+                        </div>
+                        <div class="lineitem-comment-body">
+                            @Html.DisplayFor(modelItem => comment.Body)
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <h5>No Comment</h5>
+    }
+
+<div id="add-comment" class="add-comment-box">
+    @await Html.PartialAsync("_CreateAComment", Model);
+</div>
+}

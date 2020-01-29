@@ -16,12 +16,9 @@ namespace Placements.InteractiveInvoice.Models
         [DisplayFormat(DataFormatString = "{0:G}")]
         public DateTime CreatedDate { get; set; }
 
-        public int UserID { get; set; }
+        public string UserName { get; set; }
 
         // one invoice has many lineitems
         public virtual ICollection<InvoiceLineitem> InvoiceLineitems { get; set; }
-
-        // one invoice can only be created by one user
-        public virtual User User { get; set; }
     }
 }

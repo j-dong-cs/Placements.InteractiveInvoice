@@ -30,8 +30,6 @@ namespace Placements.InteractiveInvoice
 
             services.AddDbContext<InteractiveInvoiceContext>(options => options.UseSqlServer(Configuration.GetConnectionString("InteractiveInvoiceContext")));
 
-            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<InteractiveInvoiceContext>();
-
             services.AddRazorPages();
         }
 
@@ -53,6 +51,7 @@ namespace Placements.InteractiveInvoice
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

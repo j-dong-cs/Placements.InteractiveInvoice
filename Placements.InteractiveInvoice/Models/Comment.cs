@@ -12,7 +12,7 @@ namespace Placements.InteractiveInvoice.Models
 
         public int LineitemID { get; set; }
 
-        public int UserID { get; set; }
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.MultilineText)]
@@ -25,8 +25,5 @@ namespace Placements.InteractiveInvoice.Models
 
         // one comment only belongs to one lineitem
         public virtual Lineitem Lineitem { get; set; }
-
-        // one comment only can be created by one user
-        public virtual User User { get; set; }
     }
 }
