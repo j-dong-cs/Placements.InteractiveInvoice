@@ -1,0 +1,10 @@
+@model Placements.InteractiveInvoice.Models.Comment
+
+<div class="card w-50">
+    <div class="card-header">Comment</div>
+    <div class="card-body">
+        <h3 class="card-title">@Model.UserName:</h3>
+        <p class="card-text">@Model.Body</p>
+        <p class="card-text"><small class="text-muted">Created At @Model.CreatedDate</small></p>
+    </div>
+</div>

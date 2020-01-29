@@ -15,14 +15,14 @@ namespace Placements.InteractiveInvoice.Data
         {
             /*
             context.Database.EnsureCreated();
-            */
+            
 
             context.Campaigns.RemoveRange(context.Campaigns);
             context.Lineitems.RemoveRange(context.Lineitems);
             context.Invoices.RemoveRange(context.Invoices);
             context.InvoiceLineitems.RemoveRange(context.InvoiceLineitems);
             context.SaveChanges();
-            
+            */
 
             // Seed Campaign and Lineitem from JSON file
             if (context.Lineitems.Any()) // search for existing items

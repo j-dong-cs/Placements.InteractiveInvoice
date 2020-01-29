@@ -31,9 +31,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Home\Privacy.cshtml" />
+    <Content Remove="Views\Shared\_CommentsForLineitem.cshtml" />
+    <Content Remove="Views\Shared\_CreateAComment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\InvoicePaginatedList.cs" />
     <Compile Remove="Controllers\UserController.cs" />
+    <Compile Remove="Views\Shared\_LineitemDetail.cshtml.cs" />
   </ItemGroup>
 </Project>

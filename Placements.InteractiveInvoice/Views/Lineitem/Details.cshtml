@@ -4,13 +4,12 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Lineitem: @Html.DisplayFor(l => l.LineitemName)</h2>
+<h2>Lineitem Detail:</h2>
+
+<partial name="_LineitemDetail" model="Model"/>
 
 @foreach (var item in Model.Comments)
 {
-    @await Html.PartialAsync("_DisplayComment", item, new ViewDataDictionary(ViewData) { { "id", item.CommentID } });
+    <partial name="_CommentSummary" model="item"/>
 }
 
-<div>
-    <partial name="_CreateAComment"/>
-</div>

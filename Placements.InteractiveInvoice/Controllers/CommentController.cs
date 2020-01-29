@@ -28,12 +28,5 @@ namespace Placements.InteractiveInvoice.Controllers
 
             return PartialView("_CreateAComment");
         }
-
-        public PartialViewResult _DisplayComment(int? id)
-        {
-            var comment = _context.Comments.FirstOrDefault(item => item.CommentID == id);
-
-            return PartialView("_CommentsForLineitem", comment);
-        }
     }
 }

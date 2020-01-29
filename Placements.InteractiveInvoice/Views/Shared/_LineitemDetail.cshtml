@@ -1,0 +1,28 @@
+﻿@model Placements.InteractiveInvoice.Models.Lineitem
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => Model.LineitemID)</th>
+            <th>@Html.DisplayNameFor(model => Model.LineitemName)</th>
+            <th>@Html.DisplayNameFor(model => Model.CampaignID)</th>
+            <th>@Html.DisplayNameFor(model => Model.CampaignName)</th>
+            <th>@Html.DisplayNameFor(model => Model.BookedAmount)</th>
+            <th>@Html.DisplayNameFor(model => Model.ActualAmount)</th>
+            <th>@Html.DisplayNameFor(model => Model.Adjustments)</th>
+            <th>@Html.DisplayNameFor(model => Model.BillableAmount)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>@Html.DisplayFor(model => Model.LineitemID)</th>
+            <th>@Html.DisplayFor(model => Model.LineitemName)</th>
+            <th>@Html.DisplayFor(model => Model.CampaignID)</th>
+            <th>@Html.DisplayFor(model => Model.CampaignName)</th>
+            <th>@Html.DisplayFor(model => Model.BookedAmount)</th>
+            <th>@Html.DisplayFor(model => Model.ActualAmount)</th>
+            <th>@Html.DisplayFor(model => Model.Adjustments)</th>
+            <th>@Html.DisplayFor(model => Model.BillableAmount)</th>
+        </tr>
+    </tbody>
+</table>
