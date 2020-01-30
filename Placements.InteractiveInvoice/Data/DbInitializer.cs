@@ -77,7 +77,7 @@ namespace Placements.InteractiveInvoice.Data
             var lineitemID = new int[] { 4, 13, 28, 33, 34, 35, 45, 263, 265, 269, 9980, 9989, 9901};
             foreach (var id in lineitemID)
             {
-                var lineitem = context.Lineitems.Where(l => l.LineitemID == id).SingleOrDefault();
+                var lineitem = context.Comments.Where(l => l.LineitemID == id).SingleOrDefault();
             }
 
             for (int i = 0; i < lineitemID.Length; i++)

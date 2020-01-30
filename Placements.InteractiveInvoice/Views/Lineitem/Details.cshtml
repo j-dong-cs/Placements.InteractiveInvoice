@@ -1,4 +1,4 @@
-@model Placements.InteractiveInvoice.Models.Lineitem
+@model Placements.InteractiveInvoice.Models.Comment
 
 @{
     ViewData["Title"] = "Details";
@@ -6,10 +6,13 @@
 
 <h2>Lineitem Detail:</h2>
 
-<partial name="_LineitemDetail" model="Model"/>
+<form asp-controller="Lineitem" asp-action="AddComment" asp-route-id="@Model.LineitemID">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label for="addComment">New Comment</label>
+        <textarea asp-for="Body" class="form-control" id="addComment"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>
 
-@foreach (var item in Model.Comments)
-{
-    <partial name="_CommentSummary" model="item"/>
-}
-
+<vc:comment-list lineitem-id="@Model.LineitemID"></vc:comment-list>

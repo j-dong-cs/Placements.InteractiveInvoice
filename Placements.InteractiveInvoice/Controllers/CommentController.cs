@@ -19,14 +19,10 @@ namespace Placements.InteractiveInvoice.Controllers
             _context = context;
         }
 
-        public PartialViewResult _Create(int LineitemID)
+        // GET: ~/Invoice/Create
+        public IActionResult Create()
         {
-            Comment newComment = new Comment();
-            newComment.LineitemID = LineitemID;
-
-            ViewData["LineitemID"] = LineitemID;
-
-            return PartialView("_CreateAComment");
+            return View();
         }
     }
 }

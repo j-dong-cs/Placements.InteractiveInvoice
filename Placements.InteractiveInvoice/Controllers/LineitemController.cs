@@ -81,24 +81,43 @@ namespace Placements.InteractiveInvoice.Controllers
         }
 
         // ~/Lineitem/Details/{id}
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var lineitem = await _context.Lineitems
-                .Include(item => item.Comments)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(item => item.LineitemID == id);
+            var comment = new Comment { LineitemID = id.Value };
 
-            if (lineitem == null)
+            return View("Details", comment);
+        }
+
+        // ~/Lineitem/Details/{id}
+        [HttpPost]
+        public async Task<IActionResult> AddComment(int id, [Bind("Body")] Comment comment)
+        {
+            try
             {
-                return NotFound();
+                if (ModelState.IsValid)
+                {
+                    comment.LineitemID = id;
+                    comment.UserName = "Demo";
+                    comment.CreatedDate = DateTime.Now;
+                    _context.Comments.Add(comment);
+                    await _context.SaveChangesAsync();
+
+                    return View("Details", comment);
+                }
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. " +
+                    "Try again, and if the problem persists " +
+                    "see your system administrator.");
             }
 
-            return View("Details", lineitem);
+            return View("Details", comment);
         }
 
         public async Task<IActionResult> Edit(int? id)

@@ -104,9 +104,7 @@
         {
             <tr>
                 <td>
-                    <a asp-controller="Lineitem" asp-action="Details" asp-route-id="@item.LineitemID">
-                        @Html.DisplayFor(modelItem => item.LineitemID)
-                    </a>
+                    @Html.DisplayFor(modelItem => item.LineitemID)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.LineitemName)
