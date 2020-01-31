@@ -16,15 +16,14 @@
 * Development: SqlServer on Docker 
 * Deployment: Azure SqlServer
 * Relationships:
-![alt text][interactiveDB.png]
-
+![db](InteractiveDB.png)
 
 ## How to publish and deploy
 I containerize this app into docker image and deploy on Heroku to host 
 1. clone this repository [Link](https://github.com/j-dong-cs/Placements.InteractiveInvoice.git)
 2. Install [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) 
-  - check after installation by type in terminal:
-  ` heroku version `
+    - check after installation by type in terminal:
+  ` % heroku version `
   ` heroku/7.37.0 darwin-x64 node-v12.13.0 `
 3. Install [Docker](https://docs.docker.com/install/)
     - check after installation by type in terminal:
@@ -32,11 +31,11 @@ I containerize this app into docker image and deploy on Heroku to host
    ` Docker version 19.03.5, build 633a0ea `
 4. cd to the repository root folder which contains the Dockerfile
 5. Login to Heroku account and create new app with {app_name}
-6. Run `$ heroku login` in terminal to log in to your Heroku account
-7. Run ` $ docker ps ` to make sure docker is setup locally
-8. Run ` $ heroku container:login ` to sign into Container Registry
-9. Run ` $ heroku container:push web -a {app_name} ` to push docker_based app
-10. Run ` $ heroku container:release web -a {app_name} ` to deploy the app
+6. Run ` % heroku login` in terminal to log in to your Heroku account
+7. Run ` % docker ps ` to make sure docker is setup locally
+8. Run ` % heroku container:login ` to sign into Container Registry
+9. Run ` % heroku container:push web -a {app_name} ` to push docker_based app
+10. Run ` % heroku container:release web -a {app_name} ` to deploy the app
 
 ## Usecases implemented and Instructions to run
 ### Bucket 1
@@ -44,9 +43,9 @@ I containerize this app into docker image and deploy on Heroku to host
 pagination or infinite-scrolling).
   Link: https://placements-interactiveinvoice.herokuapp.com/Invoice/Details/6
   - navigate to Invoice tab
-    ![alt text][demo/invoiceindex.png]
+    ![invoiceindex](demo/invoiceindex.png)
   - click into one invoice
-    ![alt text][demo/invoicedetails.png]
+    ![invoicedetails](demo/invoicedetails.png)
   - lineitems are paginated
   - arrows represnet first and end page; 
     Previous and Next link will be disabled if there is no prev or next page;
