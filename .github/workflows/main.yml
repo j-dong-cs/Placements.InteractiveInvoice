@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  build_interactiveinvoice:
+
+    runs-on: ubuntu-16.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run a one-line script
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        APP_NAME: ${{ interactiveinvoice }}
+      run: 
+        docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+        heroku container:push web -a interactiveinvoice
+        heroku container:release web -a interactiveinvoice
