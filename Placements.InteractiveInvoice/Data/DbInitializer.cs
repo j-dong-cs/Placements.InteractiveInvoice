@@ -15,7 +15,6 @@ namespace Placements.InteractiveInvoice.Data
         {
             /*
             context.Database.EnsureCreated();
-            
 
             context.Campaigns.RemoveRange(context.Campaigns);
             context.Lineitems.RemoveRange(context.Lineitems);
@@ -44,9 +43,9 @@ namespace Placements.InteractiveInvoice.Data
 
             }
 
-            context.Database.OpenConnection();
             try
             {
+                context.Database.OpenConnection();
                 context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Campaigns ON");
                 foreach (var campaign in campaignDict.Values)
                 {

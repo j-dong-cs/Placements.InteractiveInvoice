@@ -17,10 +17,10 @@ namespace Placements.InteractiveInvoice.Data
 
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=localhost,1401; Database=invoiceDB; User=SA; Password=Bambiedjj829");
-        }
+            optionsBuilder.UseSqlServer();
+        }*/
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
