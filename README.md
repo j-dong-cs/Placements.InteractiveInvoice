@@ -48,10 +48,10 @@ pagination or infinite-scrolling).
   - click into one invoice
     ![invoicedetails](demo/invoicedetails.png)
   - lineitems are paginated
-    ![page1](demo/pagitaion1.png)
+    ![page1](demo/paginaion1.png)
   - arrows represnet first and end page; 
     Previous and Next link will be disabled if there is no prev or next page;
-    ![page2](demo/pagitaion2.png)
+    ![page2](demo/paginaion2.png)
 
 2. The user should be able to edit line-item "adjustments".
   Link: https://placements-interactiveinvoice.herokuapp.com/Lineitem/Edit/6/6
