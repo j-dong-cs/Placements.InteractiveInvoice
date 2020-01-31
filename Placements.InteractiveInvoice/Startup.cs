@@ -31,6 +31,8 @@ namespace Placements.InteractiveInvoice
             services.AddDbContext<InteractiveInvoiceContext>(options => options.UseSqlServer(Configuration.GetConnectionString("InteractiveInvoiceContext")));
 
             services.AddRazorPages();
+
+            services.AddScoped<DbContext, InteractiveInvoiceContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,8 +54,8 @@ namespace Placements.InteractiveInvoice
             app.UseRouting();
 
             // Need to implement authorization and athentication
-            app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthentication();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
