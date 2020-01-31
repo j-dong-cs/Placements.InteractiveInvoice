@@ -46,9 +46,6 @@ namespace Placements.InteractiveInvoice.Models
             }
         }
 
-        [Timestamp]
-        public byte[] RowVersion { get; set; }
-
         // one lineitem only belong to one campaign
         public virtual Campaign Campaign { get; set; }
 

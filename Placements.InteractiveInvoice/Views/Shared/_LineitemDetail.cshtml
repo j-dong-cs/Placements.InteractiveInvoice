@@ -58,7 +58,10 @@
                         @Html.DisplayFor(modelItem => item.BillableAmount)
                     </td>
                     <td>
-                        <a asp-controller="Lineitem" asp-action="Edit" asp-route-id="@item.LineitemID" asp-route-invoiceID="@Model.Invoice.InvoiceID">Edit</a> |
+                        <a asp-controller="Lineitem" asp-action="Edit" asp-route-id="@item.LineitemID" asp-route-invoiceID="@Model.Invoice.InvoiceID">
+                            Edit
+                        </a>
+                        |
                         <a asp-controller="Lineitem" asp-action="Details" asp-route-id="@item.LineitemID">Comments</a>
                     </td>
                 </tr>

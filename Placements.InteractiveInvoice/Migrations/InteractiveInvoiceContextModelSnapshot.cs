@@ -124,11 +124,6 @@ namespace Placements.InteractiveInvoice.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
                     b.HasKey("LineitemID");
 
                     b.HasIndex("CampaignID");

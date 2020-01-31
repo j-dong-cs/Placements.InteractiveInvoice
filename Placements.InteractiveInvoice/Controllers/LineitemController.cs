@@ -130,7 +130,6 @@ namespace Placements.InteractiveInvoice.Controllers
             var lineitem = await _context.Lineitems
                             .Include(l => l.InvoiceLineitems)
                                 .ThenInclude(l => l.Invoice)
-                            .AsNoTracking()
                             .FirstOrDefaultAsync(l => l.LineitemID == id);
 
             if (lineitem == null)
@@ -155,7 +154,6 @@ namespace Placements.InteractiveInvoice.Controllers
             var lineitemToUpdate = await _context.Lineitems
                                     .Include(l => l.InvoiceLineitems)
                                         .ThenInclude(l => l.Invoice)
-                                    .AsNoTracking()
                                     .FirstOrDefaultAsync(l => l.LineitemID == id);
 
             if (await TryUpdateModelAsync<Lineitem>(lineitemToUpdate, "", l => l.Adjustments))
