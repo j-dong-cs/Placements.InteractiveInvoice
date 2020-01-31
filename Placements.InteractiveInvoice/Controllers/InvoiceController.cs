@@ -83,7 +83,7 @@ namespace Placements.InteractiveInvoice.Controllers
             return View("Index", await PaginatedList<Invoice>.CreateAsync(invoices, pageNumber ?? 1, InvoiceListPageSize));
         }
 
-        //~/Invoice/Details/{invoiceID}
+        //~/Invoice/Details/{id}
         public async Task<IActionResult> Details(int? id, string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
             if (id == null)
@@ -108,7 +108,7 @@ namespace Placements.InteractiveInvoice.Controllers
                 searchString = currentFilter;
             }
 
-            ViewData["invoiceID"] = id;
+            ViewData["id"] = id;
             ViewData["CurrentFilter"] = searchString;
 
             // eager loading

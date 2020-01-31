@@ -1,49 +1,67 @@
 ﻿@model Placements.InteractiveInvoice.Models.ViewModels.InvoiceDetailsData
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>
-                <a asp-action="Details" asp-route-sortOrder=@ViewData["IDSortParam"] asp-route-currentFilter=@ViewData["CurrentFilter"]>LineItem ID</a>
-            </th>
-            <th>
-                <a asp-action="Details" asp-route-sortOrder=@ViewData["NameSortParam"] asp-route-currentFilter=@ViewData["CurrentFilter"]>Lineitem Name</a>
-            </th>
-            <th>
-                Campaign ID
-            </th>
-            <th>
-                Campaign Name
-            </th>
-            <th>
-                <a asp-action="Details" asp-route-sortOrder=@ViewData["BookedAmtParam"] asp-route-currentFilter=@ViewData["CurrentFilter"]>Booked Amount</a>
-            </th>
-            <th>
-                <a asp-action="Details" asp-route-sortOrder=@ViewData["ActualAmtParam"] asp-route-currentFilter=@ViewData["CurrentFilter"]>Actual Amount</a>
-            </th>
-            <th>
-                <a asp-action="Details" asp-route-sortOrder=@ViewData["AdjustParam"] asp-route-currentFilter=@ViewData["CurrentFilter"]>Adjustments</a>
-            </th>
-            <th>
-                <a asp-action="Details" asp-route-sortOrder=@ViewData["BillableAmtParam"] asp-route-currentFilter=@ViewData["CurrentFilter"]>Billable Amount</a>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>@Html.DisplayFor(model => Model.LineitemID)</td>
-            <td>@Html.DisplayFor(model => Model.LineitemName)</td>
-            <td>@Html.DisplayFor(model => Model.CampaignID)</td>
-            <td>@Html.DisplayFor(model => Model.CampaignName)</td>
-            <td>@Html.DisplayFor(model => Model.BookedAmount)</td>
-            <td>@Html.DisplayFor(model => Model.ActualAmount)</td>
-            <td>@Html.DisplayFor(model => Model.Adjustments)</td>
-            <td>@Html.DisplayFor(model => Model.BillableAmount)</td>
-            <td>
-                <a asp-controller="Lineitem" asp-action="Edit" asp-route-id="@item.LineitemID" asp-route-invoiceID="@Model.Invoice.InvoiceID">Edit</a>
-                |
-                <a asp-controller="Lineitem" asp-action="Details" asp-route-id="@item.LineitemID">Comments</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    <a asp-action="Details" asp-route-sortOrder=@ViewData["IDSortParam"] asp-route-currentFilter=@ViewData["CurrentFilter"]>LineItem ID</a>
+                </th>
+                <th>
+                    <a asp-action="Details" asp-route-sortOrder=@ViewData["NameSortParam"] asp-route-currentFilter=@ViewData["CurrentFilter"]>Lineitem Name</a>
+                </th>
+                <th>
+                    Campaign ID
+                </th>
+                <th>
+                    Campaign Name
+                </th>
+                <th>
+                    <a asp-action="Details" asp-route-sortOrder=@ViewData["BookedAmtParam"] asp-route-currentFilter=@ViewData["CurrentFilter"]>Booked Amount</a>
+                </th>
+                <th>
+                    <a asp-action="Details" asp-route-sortOrder=@ViewData["ActualAmtParam"] asp-route-currentFilter=@ViewData["CurrentFilter"]>Actual Amount</a>
+                </th>
+                <th>
+                    Adjustments
+                </th>
+                <th>
+                    <a asp-action="Details" asp-route-sortOrder=@ViewData["BillableAmtParam"] asp-route-currentFilter=@ViewData["CurrentFilter"]>Billable Amount</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.pagedLineitems)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LineitemID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LineitemName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CampaignID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CampaignName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookedAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActualAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Adjustments)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BillableAmount)
+                    </td>
+                    <td>
+                        <a asp-controller="Lineitem" asp-action="Edit" asp-route-id="@item.LineitemID" asp-route-invoiceID="@Model.Invoice.InvoiceID">Edit</a> |
+                        <a asp-controller="Lineitem" asp-action="Details" asp-route-id="@item.LineitemID">Comments</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

@@ -51,6 +51,7 @@ namespace Placements.InteractiveInvoice
 
             app.UseRouting();
 
+            // Need to implement authorization and athentication
             app.UseAuthentication();
             app.UseAuthorization();
 

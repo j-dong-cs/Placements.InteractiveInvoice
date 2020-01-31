@@ -38,6 +38,9 @@ namespace Placements.InteractiveInvoice.Data
             modelBuilder.Entity<Lineitem>()
                 .Property(l => l.Adjustments)
                 .HasColumnType("decimal(30,20)");
+
+            modelBuilder.Entity<Lineitem>()
+                .Property(l => l.RowVersion).IsConcurrencyToken();
         }
     }
 }
