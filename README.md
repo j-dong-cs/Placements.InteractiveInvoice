@@ -42,18 +42,21 @@ I containerize this app into docker image and deploy on Heroku to host
 ### Bucket 1
 1. The user should be able browse through the line-item data as either a list or table (ie.
 pagination or infinite-scrolling).
+
   Link: https://placements-interactiveinvoice.herokuapp.com/Invoice/Details/6
   - navigate to Invoice tab
     ![invoiceindex](demo/invoiceindex.png)
   - click into one invoice
     ![invoicedetails](demo/invoicedetails.png)
   - lineitems are paginated
-    ![page1](demo/paginaion1.png)
+    ![page1](demo/pagination1.png)
   - arrows represnet first and end page; 
     Previous and Next link will be disabled if there is no prev or next page;
-    ![page2](demo/paginaion2.png)
-
+    ![page2](demo/pagination2.png)
+    
+    
 2. The user should be able to edit line-item "adjustments".
+
   Link: https://placements-interactiveinvoice.herokuapp.com/Lineitem/Edit/6/6
   - follow steps in usecase 1
   - click Edit link for one lineitem
@@ -63,46 +66,59 @@ pagination or infinite-scrolling).
     ![beforeedit](demo/changeorigin.png)
     ![aftetedit](demo/changeupdate.png)
     
+    
 3. The user should be able to see each line-item's billable amount (sub-total = actuals +
 adjustments). 
+
   Link: https://placements-interactiveinvoice.herokuapp.com/Invoice/Details/6
  - follow steps in usecase 1 and see pagination pic
 
 4. The user should be able to see sub-totals grouped by campaign (line-items grouped by their
 parent campaign).
+
   Link: https://placements-interactiveinvoice.herokuapp.com/Invoice/Details/6
   - follow steps in usecase 1
   - click "Subtotals by Campaign" button and a modal will pop up showing the subtotals of 
     billable amount grouped by each campaign in ascending order
     ![subtotal](demo/subtotalsgroup.png)
   
+  
 5. The user should be able to see the invoice grand-total (sum of each line-item's billable
 amount).
+
   Link: https://placements-interactiveinvoice.herokuapp.com/Invoice/Details/6
   - follow steps in usecase 1
   
+  
 6. The user should be able to sort the data.
+
   Link: https://placements-interactiveinvoice.herokuapp.com/Invoice/Details/6
   - follow steps in usecase 1
   - click the table names to apply sorting; by default, the list is sorted in ascending order by lineitem id
   - user can sort lineitems by id, name, booked amount, actual amount, and billable amount.
     ![sort](demo/sort.png)
   
+  
 7. The user should be able to browse/filter/sort the invoice history, as well.
+
   Link: https://placements-interactiveinvoice.herokuapp.com/Invoice
   - pagination also applied to invoices view
   - user can sort invoices by id, name, created date, and username
   - search invoice by name
     ![invoicesearch](demo/invoicesearch.png)
   
+  
+  
 ### Bucket 2
 8. The user should be able to filter the data (ie. by campaign name, etc., should affect the
 grand-total).
+  
   Link: https://placements-interactiveinvoice.herokuapp.com/Invoice/Details/2
   - search by campaign name and notice that pagination, subtotal, and grand total are also changed according to search result
     ![campaignsearch](demo/campaignsearchafter.png)
 
 9. The user should be able to add comments on an individual line-item.
+  
   Link: https://placements-interactiveinvoice.herokuapp.com/Lineitem/Details/2
   - add a new comment to lineitem 2 and the most-recent-added comment will appear to the top of all comments
   - each comment show the author, content, and created time (user login has not implemented yet.)
